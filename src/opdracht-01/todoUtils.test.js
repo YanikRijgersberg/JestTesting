@@ -10,7 +10,7 @@ describe('Todo Utils', () => {
 
   test('isValidTodo geeft false voor lege string', () => {
     // TODO: Test of '' invalid is
-    expect(true).toBe(false); // Deze test faalt! Vervang deze regel met je eigen test
+    expect(result).toBe(false); // Deze test faalt! Vervang deze regel met je eigen test
   });
 
   test('getTodoPriority geeft high voor urgent', () => {
