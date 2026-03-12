@@ -12,17 +12,21 @@ describe('Password Validator', () => {
   test('te kort wachtwoord geeft error', () => {
     // TODO: Test of 'Test1' invalid is
     // Hint: check of isValid false is
-    expect(true).toBe(false); // Deze test faalt! Vervang met je eigen test
+    const result = validatePassword('Test1')
+    expect(result.isValid).toBe(false); // Deze test faalt! Vervang met je eigen test
   });
 
   test('wachtwoord zonder nummer geeft error', () => {
-    // TODO: Test of 'Welkomtestje' invalid is
-    expect(true).toBe(false); // Deze test faalt! Vervang met je eigen test
+    const result = validatePassword('Welkomtestje')
+    expect(result.isValid).toBe(false); // Deze test faalt! Vervang met je eigen test
+    expect(result.errors).toContain('Moet minimaal 1 nummer bevatten'); // Deze test faalt! Vervang met je eigen test
+    
   });
 
   test('wachtwoord zonder hoofdletter geeft error', () => {
-    // TODO: Test of 'welkom123' invalid is
-    expect(true).toBe(false); // Deze test faalt! Vervang met je eigen test
+      const result = validatePassword('welkom1234')
+      expect(result.isValid).toBe(false); // Deze test faalt! Vervang met je eigen test
+      expect(result.errors).toContain('Moet minimaal 1 hoofdletter bevatten');
   });
 
   test('errors array bevat juiste foutmeldingen', () => {
