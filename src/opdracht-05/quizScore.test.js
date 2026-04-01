@@ -1,63 +1,129 @@
-import { calculateTotalScore, calculatePercentage, isPassed, getGrade, countWrongAnswers } from './quizScore';
+import {
+  calculateTotalScore,
+  calculatePercentage,
+  isPassed,
+  getGrade,
+  countWrongAnswers
+} from './quizCalculator';
 
-describe('Quiz Score', () => {
-  let quizAnswers;
+describe('Quiz Calculator', () => {
+  let allCorrect;
+  let allWrong;
+  let mixed;
 
   beforeEach(() => {
-    // TODO: Maak hier een array met quiz antwoorden
-    // quizAnswers = [
-    //   { question: 1, isCorrect: true, points: 10 },
-    //   { question: 2, isCorrect: true, points: 10 },
-    //   { question: 3, isCorrect: false, points: 0 },
-    //   { question: 4, isCorrect: true, points: 10 },
-    //   { question: 5, isCorrect: true, points: 10 }
-    // ];
-  });
-
-  // VOORBEELD - Deze test is al ingevuld
-  test('VOORBEELD: calculateTotalScore telt punten op', () => {
-    const answers = [
-      { question: 1, isCorrect: true, points: 10 },
-      { question: 2, isCorrect: true, points: 15 }
+    allCorrect = [
+      { points: 10, isCorrect: true },
+      { points: 10, isCorrect: true },
+      { points: 10, isCorrect: true },
     ];
-    expect(calculateTotalScore(answers)).toBe(25);
+
+    allWrong = [
+      { points: 0, isCorrect: false },
+      { points: 0, isCorrect: false },
+      { points: 0, isCorrect: false },
+    ];
+
+    mixed = [
+      { points: 10, isCorrect: true },
+      { points: 10, isCorrect: true },
+      { points: 0,  isCorrect: false },
+      { points: 0,  isCorrect: false },
+    ];
   });
 
-  test('calculatePercentage berekent juiste percentage', () => {
-    // TODO: Gebruik quizAnswers uit beforeEach
-    // TODO: Met 4 van 5 goed moet het 80% zijn
-    // Hint: Je moet eerst beforeEach invullen!
-    expect(true).toBe(false); // Deze test faalt! Vervang met je eigen test
+  // --- calculateTotalScore ---
+
+  test('calculateTotalScore telt punten correct op', () => {
+    expect(calculateTotalScore(allCorrect)).toBe(30);
   });
 
-  test('isPassed geeft true bij 60% of hoger', () => {
-    // TODO: Gebruik quizAnswers (80% goed)
-    // TODO: Check of isPassed true teruggeeft
-    expect(true).toBe(false); // Deze test faalt! Vervang met je eigen test
+  test('calculateTotalScore geeft 0 bij geen punten', () => {
+    expect(calculateTotalScore(allWrong)).toBe(0);
   });
 
-  test('isPassed geeft false bij lager dan 60%', () => {
-    // TODO: Maak nieuwe answers array met 50% goed
-    // TODO: Check of isPassed false teruggeeft
-    expect(true).toBe(false); // Deze test faalt! Vervang met je eigen test
+  // --- calculatePercentage ---
+
+  test('calculatePercentage geeft 100 bij alles goed', () => {
+    expect(calculatePercentage(allCorrect)).toBe(100);
   });
 
-  test('getGrade geeft Excellent bij 90%+', () => {
-    // TODO: Maak answers met 90% of meer goed
-    // TODO: Check of getGrade 'Excellent' teruggeeft
-    expect(true).toBe(false); // Deze test faalt! Vervang met je eigen test
+  test('calculatePercentage geeft 0 bij alles fout', () => {
+    expect(calculatePercentage(allWrong)).toBe(0);
   });
 
-  test('getGrade geeft Goed bij 75-89%', () => {
-    // TODO: Gebruik quizAnswers (80% goed)
-    // TODO: Check of getGrade 'Goed' teruggeeft
-    expect(true).toBe(false); // Deze test faalt! Vervang met je eigen test
+  test('calculatePercentage geeft 50 bij helft goed', () => {
+    expect(calculatePercentage(mixed)).toBe(50);
   });
+
+  // --- isPassed ---
+
+  test('isPassed geeft true bij 100%', () => {
+    expect(isPassed(allCorrect)).toBe(true);
+  });
+
+  test('isPassed geeft false bij 0%', () => {
+    expect(isPassed(allWrong)).toBe(false);
+  });
+
+  test('isPassed geeft false bij 50%', () => {
+    expect(isPassed(mixed)).toBe(false);
+  });
+
+  test('isPassed geeft true bij precies 60%', () => {
+    const borderline = [
+      { points: 10, isCorrect: true },
+      { points: 10, isCorrect: true },
+      { points: 10, isCorrect: true },
+      { points: 0,  isCorrect: false },
+      { points: 0,  isCorrect: false },
+    ];
+    expect(isPassed(borderline)).toBe(true);
+  });
+
+  // --- getGrade ---
+
+  test('getGrade geeft Excellent bij 90% of hoger', () => {
+    expect(getGrade(allCorrect)).toBe('Excellent');
+  });
+
+  test('getGrade geeft Goed bij 75%', () => {
+    const answers = [
+      { points: 10, isCorrect: true },
+      { points: 10, isCorrect: true },
+      { points: 10, isCorrect: true },
+      { points: 0,  isCorrect: false },
+    ];
+    expect(getGrade(answers)).toBe('Goed');
+  });
+
+  test('getGrade geeft Voldoende bij 60%', () => {
+    const borderline = [
+      { points: 10, isCorrect: true },
+      { points: 10, isCorrect: true },
+      { points: 10, isCorrect: true },
+      { points: 0,  isCorrect: false },
+      { points: 0,  isCorrect: false },
+    ];
+    expect(getGrade(borderline)).toBe('Voldoende');
+  });
+
+  test('getGrade geeft Onvoldoende bij minder dan 60%', () => {
+    expect(getGrade(allWrong)).toBe('Onvoldoende');
+  });
+
+  // --- countWrongAnswers ---
 
   test('countWrongAnswers telt foute antwoorden', () => {
-    // TODO: Gebruik quizAnswers (1 fout antwoord)
-    // TODO: Check of countWrongAnswers 1 teruggeeft
-    expect(true).toBe(false); // Deze test faalt! Vervang met je eigen test
+    expect(countWrongAnswers(mixed)).toBe(2);
+  });
+
+  test('countWrongAnswers geeft 0 bij alles goed', () => {
+    expect(countWrongAnswers(allCorrect)).toBe(0);
+  });
+
+  test('countWrongAnswers geeft totaal bij alles fout', () => {
+    expect(countWrongAnswers(allWrong)).toBe(3);
   });
 
 });
