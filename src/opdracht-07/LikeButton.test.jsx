@@ -10,26 +10,25 @@ describe('LikeButton', () => {
   });
 
   test('verhoogt likes bij klik', () => {
-    // TODO: Render LikeButton met initialLikes={0}
-    // TODO: Vind de button (Hint: screen.getByRole('button'))
-    // TODO: Klik op de button (Hint: fireEvent.click(button))
-    // TODO: Check of "1 likes" op het scherm staat
-    expect(true).toBe(false); // Deze test faalt! Vervang met je eigen test
+    render(<LikeButton initialLikes={0} />);
+    const button = screen.getByRole('button');
+    fireEvent.click(button);
+    expect(screen.getByText('1 likes')).toBeInTheDocument();
   });
 
   test('verlaagt likes bij tweede klik', () => {
-    // TODO: Render LikeButton
-    // TODO: Klik 2x op de button
-    // TODO: Check of we terug zijn bij "0 likes"
-    expect(true).toBe(false); // Deze test faalt! Vervang met je eigen test
+    render(<LikeButton initialLikes={0} />);
+    const button = screen.getByRole('button');
+    fireEvent.click(button);
+    fireEvent.click(button);
+    expect(screen.getByText('0 likes')).toBeInTheDocument();
   });
 
   test('toont rood hartje als geliked', () => {
-    // TODO: Render LikeButton
-    // TODO: Klik op de button
-    // TODO: Check of de button tekst "❤️ Like" bevat
-    // Hint: screen.getByText(/❤️ Like/)
-    expect(true).toBe(false); // Deze test faalt! Vervang met je eigen test
+    render(<LikeButton initialLikes={0} />);
+    const button = screen.getByRole('button');
+    fireEvent.click(button);
+    expect(screen.getByText(/❤️ Like/)).toBeInTheDocument();
   });
 
 });
